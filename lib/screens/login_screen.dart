@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splenda_epi/components/public/Button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -52,44 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               border: OutlineInputBorder(), hintText: 'Senha'),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Color.fromARGB(255, 254, 204, 22),
-                                ],
-                                stops: [
-                                  0.2,
-                                  1
-                                ]),
-                          ),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                              shadowColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            onPressed: () {},
-                            child: const SizedBox(
-                              height: 60,
-                              width: double.infinity,
-                              child: Center(
-                                child: Text(
-                                  "Entrar",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      Button(label: "Entrar", function: () => print("clicou")),
                     ],
                   ),
                 ),
