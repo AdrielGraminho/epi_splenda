@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splenda_epi/components/public/base_text_field.dart';
 import 'package:splenda_epi/components/public/button.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 
@@ -26,16 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height * 0.6,
             child: Column(
               children: [
-                const TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'E-mail'),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Senha'),
-                  ),
+                BaseTextField(text: "E-mail", onChange: () => print("changed")),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: BaseTextField(
+                      text: "Senha",
+                      onChange: () => print("teste"),
+                      isPassword: true),
                 ),
                 Button(label: "Entrar", function: () => print("clicou")),
               ],

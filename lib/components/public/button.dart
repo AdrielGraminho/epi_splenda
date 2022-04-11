@@ -13,6 +13,12 @@ class Button extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Container(
         decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0),
+            bottomRight: Radius.circular(10.0),
+            bottomLeft: Radius.circular(10.0),
+            topLeft: Radius.circular(10.0),
+          ),
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomCenter,

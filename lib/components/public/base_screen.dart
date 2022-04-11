@@ -16,7 +16,7 @@ class BaseScreen extends StatelessWidget {
             Color.fromARGB(255, 254, 204, 22),
           ],
               stops: [
-            0.7,
+            0.6,
             1
           ])),
       child: Scaffold(
