@@ -16,7 +16,8 @@ class BaseTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       obscureText: isPassword != null,
-      decoration: InputDecoration(border: OutlineInputBorder(), hintText: text),
+      decoration:
+          InputDecoration(border: const OutlineInputBorder(), hintText: text),
       onChanged: (_) => onChange(),
     );
   }

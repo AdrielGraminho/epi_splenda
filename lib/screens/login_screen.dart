@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:splenda_epi/components/public/base_text_field.dart';
 import 'package:splenda_epi/components/public/button.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
+import 'package:splenda_epi/screens/calendar_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -35,7 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChange: () => print("teste"),
                       isPassword: true),
                 ),
-                Button(label: "Entrar", function: () => print("clicou")),
+                Button(
+                    label: "Entrar",
+                    function: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CalendarScreen()))),
               ],
             ),
           ),
@@ -45,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return BaseScreen(
       child: child,
-      navigation: true,
+      navigation: false,
     );
   }
 }
