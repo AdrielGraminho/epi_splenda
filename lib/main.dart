@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -12,6 +13,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Color.fromARGB(255, 254, 204, 22)));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Splenda EPI',
