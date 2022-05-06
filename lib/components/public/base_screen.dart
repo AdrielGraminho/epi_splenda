@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:splenda_epi/screens/audit_screen.dart';
+
+import '../../screens/calendar_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   final Widget child;
@@ -13,6 +16,8 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     int _selectedIndex = 0;
     const TextStyle optionStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -50,6 +55,8 @@ class _BaseScreenState extends State<BaseScreen> {
     }
 
     return Container(
+      padding:
+          isNavigationScreen() ? null : EdgeInsets.only(top: statusBarHeight),
       decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -63,6 +70,50 @@ class _BaseScreenState extends State<BaseScreen> {
             1
           ])),
       child: Scaffold(
+        appBar: isNavigationScreen()
+            ? AppBar(
+                title: const Text("Controle de EPIs Splenda"),
+                backgroundColor: const Color.fromARGB(255, 254, 204, 22),
+              )
+            : null,
+        drawer: isNavigationScreen()
+            ? Drawer(
+                backgroundColor: const Color.fromARGB(255, 254, 204, 22),
+                child: ListView(
+                  padding: EdgeInsets.only(top: statusBarHeight),
+                  children: [
+                    ListTile(
+                      title: const Text('Início'),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CalendarScreen()),
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('Auditoria'),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AuditScreen()),
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('PPRA e PCMSO'),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Conta'),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              )
+            : null,
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: widget.child,
@@ -87,7 +138,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   ),
                 ],
                 currentIndex: _selectedIndex,
-                selectedItemColor: Colors.amber[800],
+                selectedItemColor: const Color.fromARGB(255, 254, 204, 22),
                 unselectedItemColor: Colors.white,
                 backgroundColor: Colors.black,
                 onTap: _onItemTapped,

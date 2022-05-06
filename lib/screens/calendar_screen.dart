@@ -31,41 +31,78 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     Widget _child = Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: TableCalendar(
-            calendarBuilders: CalendarBuilders(
-              selectedBuilder: (context, day, focusedDay) => Container(
-                margin: const EdgeInsets.all(4),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: now.isBefore(day) ? Colors.amber : Colors.red,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(day.day.toString()),
-              ),
+        TableCalendar(
+          calendarBuilders: CalendarBuilders(
+            selectedBuilder: (context, day, focusedDay) => Container(
+              margin: const EdgeInsets.all(4),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: now.isBefore(day) ? Colors.amber : Colors.red,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(day.day.toString()),
             ),
-            headerStyle: const HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true,
-            ),
-            focusedDay: now,
-            firstDay: firstDay,
-            lastDay: lastDay,
-            locale: 'pt_BR',
-            currentDay: now,
-            selectedDayPredicate: (day) {
-              late bool isSelectedDate = false;
-              for (DateTime dateSelect in dateMock) {
-                if (dateSelect.day == day.day &&
-                    dateSelect.month == day.month &&
-                    dateSelect.year == day.year) {
-                  isSelectedDate = true;
-                }
-              }
-              return isSelectedDate;
-            },
           ),
-        )
+          headerStyle: const HeaderStyle(
+            formatButtonVisible: false,
+            titleCentered: true,
+          ),
+          focusedDay: now,
+          firstDay: firstDay,
+          lastDay: lastDay,
+          locale: 'pt_BR',
+          currentDay: now,
+          selectedDayPredicate: (day) {
+            late bool isSelectedDate = false;
+            for (DateTime dateSelect in dateMock) {
+              if (dateSelect.day == day.day &&
+                  dateSelect.month == day.month &&
+                  dateSelect.year == day.year) {
+                isSelectedDate = true;
+              }
+            }
+            return isSelectedDate;
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: const BoxDecoration(color: Colors.red),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Data com itens em atraso"),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: const BoxDecoration(color: Colors.amber),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Data com itens em aberto"),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
 
