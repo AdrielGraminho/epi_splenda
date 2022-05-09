@@ -46,6 +46,9 @@ class _AuditScreenState extends State<AuditScreen> {
 
   String dropDownValue = '';
   String dropDownItem = '';
+  List<int> isAproved = [];
+  List<int> isReproved = [];
+  List<int> isNotAplicable = [];
 
   @override
   Widget build(BuildContext context) {
@@ -83,39 +86,101 @@ class _AuditScreenState extends State<AuditScreen> {
               String title = mock.elementAt(index)['item']['title'].toString();
               String description =
                   mock.elementAt(index)['item']['description'].toString();
+              int id = mock.elementAt(index)['id'];
               return Container(
                 padding: const EdgeInsets.all(16.0),
                 width: MediaQuery.of(context).size.width,
                 child: Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: 1.0, color: Colors.black),
-                        left: BorderSide(width: 1.0, color: Colors.black),
-                        right: BorderSide(width: 1.0, color: Colors.black),
-                        bottom: BorderSide(width: 1.0, color: Colors.black),
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                      color: Color.fromARGB(255, 254, 204, 22)),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      color: const Color.fromARGB(255, 254, 204, 22)),
                   child: Container(
                     child: Column(children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Expanded(
-                                child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(title),
-                              ],
+                        child: Text(id.toString() + '- ' + title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
                             )),
-                            const Icon(Icons.arrow_downward),
-                          ],
-                        ),
                       ),
                       Text(description),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                              checkColor: Colors.green,
+                              value: isAproved.contains(id),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (isAproved.contains(id)) {
+                                    isAproved.remove(id);
+                                  } else {
+                                    isAproved.add(id);
+                                    isReproved.remove(id);
+                                    isNotAplicable.remove(id);
+                                  }
+                                });
+                              }),
+                          const Text(
+                            'Conforme',
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                              checkColor: Colors.red,
+                              value: isReproved.contains(id),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (isReproved.contains(id)) {
+                                    isReproved.remove(id);
+                                  } else {
+                                    isReproved.add(id);
+                                    isAproved.remove(id);
+                                    isNotAplicable.remove(id);
+                                  }
+                                });
+                              }),
+                          const Text(
+                            'Não Conforme',
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                              checkColor: Colors.blue,
+                              value: isNotAplicable.contains(id),
+                              onChanged: (val) {
+                                setState(() {
+                                  if (isNotAplicable.contains(id)) {
+                                    isNotAplicable.remove(id);
+                                  } else {
+                                    isNotAplicable.add(id);
+
+                                    isReproved.remove(id);
+                                    isAproved.remove(id);
+                                  }
+                                });
+                              }),
+                          const Text(
+                            'Não Aplicável',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      )
                     ]),
                     padding: const EdgeInsets.all(8),
                   ),
