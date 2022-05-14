@@ -32,6 +32,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     Widget _child = Column(
       children: [
         TableCalendar(
+          onDaySelected: ((selectedDay, focusedDay) => {
+                Navigator.pushNamed(context, "/day_details_screen",
+                    arguments: {"daySelected": focusedDay})
+              }),
           calendarBuilders: CalendarBuilders(
             selectedBuilder: (context, day, focusedDay) => Container(
               margin: const EdgeInsets.all(4),

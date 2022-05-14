@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -10,7 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Splenda EPI',
       theme: ThemeData(primarySwatch: Colors.yellow),
       home: const LoginScreen(),
+      routes: {"/day_details_screen": ((context) => DayDetailsScreen())},
     );
   }
 }

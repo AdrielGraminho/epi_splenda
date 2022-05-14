@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/components/public/box_list.dart';
-import 'package:splenda_epi/components/public/dropdownField.dart';
+import 'package:splenda_epi/components/public/custom_dropdown_field.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
 
 class AuditScreen extends StatefulWidget {
@@ -75,7 +75,7 @@ class _AuditScreenState extends State<AuditScreen> {
     Widget child = Column(
       children: [
         const TitleField(title: "Auditoria"),
-        DropDownField(
+        CustomDropDownField(
             onChange: setDropDown,
             options: ['', 'Unidate 1', 'Unidade 2', 'Unidade 3', 'Unidade 4'],
             dropDownValue: dropDownValue),
