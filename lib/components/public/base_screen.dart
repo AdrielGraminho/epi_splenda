@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splenda_epi/screens/account_screen.dart';
 import 'package:splenda_epi/screens/audit_screen.dart';
 import 'package:splenda_epi/screens/ppra_pcmso_screen.dart';
 
@@ -109,9 +110,11 @@ class _BaseScreenState extends State<BaseScreen> {
                     ),
                     ListTile(
                       title: const Text('Conta'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AccountScreen()),
+                      ),
                     ),
                   ],
                 ),
