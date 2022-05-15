@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Splenda EPI',
-      theme: ThemeData(primarySwatch: Colors.yellow),
+      theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Roboto'),
       home: const LoginScreen(),
       routes: {"/day_details_screen": ((context) => DayDetailsScreen())},
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splenda_epi/screens/audit_screen.dart';
+import 'package:splenda_epi/screens/ppra_pcmso_screen.dart';
 
 import '../../screens/calendar_screen.dart';
 
@@ -100,9 +101,11 @@ class _BaseScreenState extends State<BaseScreen> {
                     ),
                     ListTile(
                       title: const Text('PPRA e PCMSO'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PpraPcmsoScreen()),
+                      ),
                     ),
                     ListTile(
                       title: const Text('Conta'),
