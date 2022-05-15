@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Splenda EPI',
       theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Roboto'),
       home: const LoginScreen(),
-      routes: {"/day_details_screen": ((context) => DayDetailsScreen())},
+      routes: {"/day_details_screen": ((context) => const DayDetailsScreen())},
     );
   }
 }

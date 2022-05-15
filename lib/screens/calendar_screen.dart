@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../components/public/custom_text_label.dart';
+
 var now = DateTime.now();
 var firstDay = DateTime(now.year, now.month - 3, now.day);
 var lastDay = DateTime(now.year, now.month + 3, now.day);
@@ -73,15 +75,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 30,
-                height: 30,
+                width: 32,
+                height: 32,
                 decoration: const BoxDecoration(color: Colors.red),
               ),
               Container(
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Data com itens em atraso"),
+                  child: CustomTextLabel(text: "Data com itens em atraso"),
                 ),
               ),
             ],
@@ -93,15 +95,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 30,
-                height: 30,
+                width: 32,
+                height: 32,
                 decoration: const BoxDecoration(color: Colors.amber),
               ),
               Container(
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Data com itens em aberto"),
+                  child: CustomTextLabel(text: "Data com itens em aberto"),
                 ),
               ),
             ],

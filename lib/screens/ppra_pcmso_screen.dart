@@ -14,7 +14,7 @@ class PpraPcmsoScreen extends StatefulWidget {
 }
 
 class _PpraPcmsoScreenState extends State<PpraPcmsoScreen> {
-  List<String> optionsMock = ["", "Ortobom"];
+  List<String> optionsMock = ["", "1001- Ortobom"];
 
   String dropDownValue = "";
 
@@ -52,7 +52,7 @@ class _PpraPcmsoScreenState extends State<PpraPcmsoScreen> {
                   children: const [
                     Padding(
                       padding: EdgeInsets.all(32.0),
-                      child: CustomTextLabel(text: "Data de experição PCMSO:"),
+                      child: CustomTextLabel(text: "Data de expiração PCMSO:"),
                     ),
                   ],
                 ),

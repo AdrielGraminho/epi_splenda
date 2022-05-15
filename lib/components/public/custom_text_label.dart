@@ -7,7 +7,7 @@ class CustomTextLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: 'Roboto',
           fontSize: 16,
         ));
