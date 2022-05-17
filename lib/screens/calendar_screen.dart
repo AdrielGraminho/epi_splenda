@@ -33,41 +33,44 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     Widget _child = Column(
       children: [
-        TableCalendar(
-          onDaySelected: ((selectedDay, focusedDay) => {
-                Navigator.pushNamed(context, "/day_details_screen",
-                    arguments: {"daySelected": focusedDay})
-              }),
-          calendarBuilders: CalendarBuilders(
-            selectedBuilder: (context, day, focusedDay) => Container(
-              margin: const EdgeInsets.all(4),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: now.isBefore(day) ? Colors.amber : Colors.red,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Text(day.day.toString()),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TableCalendar(
+            onDaySelected: ((selectedDay, focusedDay) => {
+                  Navigator.pushNamed(context, "/day_details_screen",
+                      arguments: {"daySelected": focusedDay})
+                }),
+            calendarBuilders: CalendarBuilders(
+              selectedBuilder: (context, day, focusedDay) => Container(
+                margin: const EdgeInsets.all(4),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: now.isBefore(day) ? Colors.amber : Colors.red,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(day.day.toString()),
+              ),
             ),
-          ),
-          headerStyle: const HeaderStyle(
-            formatButtonVisible: false,
-            titleCentered: true,
-          ),
-          focusedDay: now,
-          firstDay: firstDay,
-          lastDay: lastDay,
-          locale: 'pt_BR',
-          currentDay: now,
-          selectedDayPredicate: (day) {
-            late bool isSelectedDate = false;
-            for (DateTime dateSelect in dateMock) {
-              if (dateSelect.day == day.day &&
-                  dateSelect.month == day.month &&
-                  dateSelect.year == day.year) {
-                isSelectedDate = true;
+            headerStyle: const HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true,
+            ),
+            focusedDay: now,
+            firstDay: firstDay,
+            lastDay: lastDay,
+            locale: 'pt_BR',
+            currentDay: now,
+            selectedDayPredicate: (day) {
+              late bool isSelectedDate = false;
+              for (DateTime dateSelect in dateMock) {
+                if (dateSelect.day == day.day &&
+                    dateSelect.month == day.month &&
+                    dateSelect.year == day.year) {
+                  isSelectedDate = true;
+                }
               }
-            }
-            return isSelectedDate;
-          },
+              return isSelectedDate;
+            },
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(15),

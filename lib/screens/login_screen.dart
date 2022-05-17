@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BaseScreen(
       child: child,
       navigation: false,
+      topBar: false,
     );
   }
 }

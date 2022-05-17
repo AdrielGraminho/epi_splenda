@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:splenda_epi/helpers/count_page.dart';
 import 'package:splenda_epi/screens/account_screen.dart';
 import 'package:splenda_epi/screens/audit_screen.dart';
+import 'package:splenda_epi/screens/recived_epi_screen.dart';
+import 'package:splenda_epi/screens/send_epi_screen.dart';
 import 'package:splenda_epi/screens/ppra_pcmso_screen.dart';
 
 import '../../screens/calendar_screen.dart';
@@ -8,7 +12,9 @@ import '../../screens/calendar_screen.dart';
 class BaseScreen extends StatefulWidget {
   final Widget child;
   final bool? navigation;
-  const BaseScreen({Key? key, required this.child, this.navigation})
+  final bool? topBar;
+  const BaseScreen(
+      {Key? key, required this.child, this.navigation, this.topBar})
       : super(key: key);
 
   @override
@@ -20,32 +26,23 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    int _selectedIndex = 0;
-    const TextStyle optionStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    const List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Index 0: Home',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 1: Business',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 2: School',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 3: Settings',
-        style: optionStyle,
-      ),
+    List<Widget> pages = [
+      CalendarScreen(),
+      RecivedEpiScreen(),
+      SendEpiScreen()
     ];
+
+    int _selectedIndex = Provider.of<CountPage>(context, listen: false).counter;
 
     void _onItemTapped(int index) {
       setState(() {
-        _selectedIndex = index;
+        Provider.of<CountPage>(context, listen: false).incrementCounter(index);
       });
+      Navigator.push(context, PageRouteBuilder(pageBuilder:
+          (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+        return pages.elementAt(index);
+      }));
     }
 
     bool isNavigationScreen() {
@@ -53,6 +50,14 @@ class _BaseScreenState extends State<BaseScreen> {
         return true;
       } else {
         return false;
+      }
+    }
+
+    bool isTopBarScreen() {
+      if (widget.topBar == false) {
+        return false;
+      } else {
+        return true;
       }
     }
 
@@ -72,7 +77,7 @@ class _BaseScreenState extends State<BaseScreen> {
             1
           ])),
       child: Scaffold(
-        appBar: isNavigationScreen()
+        appBar: isTopBarScreen()
             ? AppBar(
                 title: const Text("Controle de EPIs Splenda"),
                 backgroundColor: const Color.fromARGB(255, 254, 204, 22),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:splenda_epi/helpers/count_page.dart';
 import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -15,12 +17,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Color.fromARGB(255, 254, 204, 22)));
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Splenda EPI',
-      theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Roboto'),
-      home: const LoginScreen(),
-      routes: {"/day_details_screen": ((context) => const DayDetailsScreen())},
-    );
+    return ChangeNotifierProvider<CountPage>(
+        create: (BuildContext context) => CountPage(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Splenda EPI',
+          theme: ThemeData(primarySwatch: Colors.yellow, fontFamily: 'Roboto'),
+          home: const LoginScreen(),
+          routes: {
+            "/day_details_screen": ((context) => const DayDetailsScreen())
+          },
+        ));
   }
 }
