@@ -33,15 +33,15 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
           child: Column(
             children: [
               BaseTextField(
-                  text: "CPF do Colaborador",
-                  onChange: () => print("teste"),
+                  label: "CPF do Colaborador",
+                  controller: TextEditingController(),
                   isPassword: false),
               const SizedBox(
                 height: 16,
               ),
               BaseTextField(
-                  text: "Nome do Colaborador",
-                  onChange: () => print("teste"),
+                  label: "Nome do Colaborador",
+                  controller: TextEditingController(),
                   isPassword: false),
               Button(label: "Salvar", function: () {}),
             ],

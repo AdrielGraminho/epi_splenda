@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class BaseTextField extends StatelessWidget {
-  final String text;
-  final Function onChange;
+  final TextEditingController controller;
   final bool? isPassword;
+  final String label;
 
   const BaseTextField({
     Key? key,
-    required this.text,
-    required this.onChange,
+    required this.controller,
     this.isPassword,
+    required this.label,
   }) : super(key: key);
 
   @override
@@ -17,8 +17,8 @@ class BaseTextField extends StatelessWidget {
     return TextField(
       obscureText: isPassword != null,
       decoration:
-          InputDecoration(border: const OutlineInputBorder(), hintText: text),
-      onChanged: (_) => onChange(),
+          InputDecoration(border: const OutlineInputBorder(), hintText: label),
+      controller: controller,
     );
   }
 }

@@ -32,15 +32,15 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
           child: Column(
             children: [
               BaseTextField(
-                  text: "CPF do Colaborador",
-                  onChange: () => print("teste"),
+                  label: "CPF do Colaborador",
+                  controller: TextEditingController(),
                   isPassword: false),
               SizedBox(
                 height: 16,
               ),
               BaseTextField(
-                  text: "Nome do Colaborador",
-                  onChange: () => print("teste"),
+                  label: "Nome do Colaborador",
+                  controller: TextEditingController(),
                   isPassword: false),
               Button(label: "Salvar", function: () {}),
             ],

@@ -3,6 +3,7 @@ import 'package:splenda_epi/components/public/base_text_field.dart';
 import 'package:splenda_epi/components/public/button.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/screens/calendar_screen.dart';
+import 'package:splenda_epi/services/login_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,6 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController userName = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Widget child = Column(
@@ -28,20 +32,24 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height * 0.6,
             child: Column(
               children: [
-                BaseTextField(text: "E-mail", onChange: () => print("changed")),
+                BaseTextField(
+                  label: "Usuário",
+                  controller: userName,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: BaseTextField(
-                      text: "Senha",
-                      onChange: () => print("teste"),
-                      isPassword: true),
+                    label: "Senha",
+                    isPassword: true,
+                    controller: password,
+                  ),
                 ),
                 Button(
                     label: "Entrar",
-                    function: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CalendarScreen()))),
+                    function: () {
+                      LoginService()
+                          .authenticate(userName.text, password.text, context);
+                    }),
               ],
             ),
           ),
