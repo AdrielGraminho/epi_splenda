@@ -6,8 +6,9 @@ class CalendarDays extends ChangeNotifier {
   List<DateTime> get listDate => _listDate;
 
   Future<void> getDays(BuildContext context) async {
-    notifyListeners();
+    _listDate.clear();
     _listDate = await Future.value(CalendarService().findAllDate(context));
+    notifyListeners();
     return Future.value();
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:splenda_epi/providers/calendar_days.dart';
+import 'package:splenda_epi/providers/calendar_days_provider.dart';
+import 'package:splenda_epi/providers/calendar_details_provider.dart';
 import 'package:splenda_epi/providers/count_page.dart';
 import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => CountPage(),
           ),
           ChangeNotifierProvider(
-              create: (BuildContext context) => CalendarDays())
+              create: (BuildContext context) => CalendarDays()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => CalendarDetailsProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

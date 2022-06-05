@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
-import '../providers/calendar_days.dart';
+import '../providers/calendar_days_provider.dart';
 import '../screens/calendar_screen.dart';
 import '../shared/data/store.dart';
 

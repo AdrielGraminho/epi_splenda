@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
-import 'package:splenda_epi/providers/calendar_days.dart';
+import 'package:splenda_epi/providers/calendar_days_provider.dart';
+import 'package:splenda_epi/providers/calendar_details_provider.dart';
+import 'package:splenda_epi/services/calendar_details_service.dart';
+import 'package:splenda_epi/shared/data/store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../components/public/custom_text_label.dart';
@@ -21,7 +24,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    List<DateTime> dateMock =
+    List<DateTime> dateList =
         Provider.of<CalendarDays>(context, listen: false).listDate;
 
     Map<String, dynamic> userData;
@@ -31,14 +34,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
           padding: const EdgeInsets.all(8.0),
           child: TableCalendar(
             onDaySelected: ((selectedDay, focusedDay) async => {
-                  dateMock.forEach((date) => {
-                        if (DateFormat('y-MM-dd').format(date) ==
-                            DateFormat('y-MM-dd').format(selectedDay))
-                          {
-                            Navigator.pushNamed(context, "/day_details_screen",
-                                arguments: {"daySelected": focusedDay})
-                          }
-                      })
+                  dateList.forEach((date) async {
+                    if (DateFormat('y-MM-dd').format(date) ==
+                        DateFormat('y-MM-dd').format(selectedDay)) {
+                      final userData = await Store.getMap('userData');
+                      if (userData['nameRole'] == 'total') {
+                        await Provider.of<CalendarDetailsProvider>(context,
+                                listen: false)
+                            .getDayDetailsTotalPermission(selectedDay, context);
+                      }
+
+                      Navigator.pushNamed(context, "/day_details_screen",
+                          arguments: {"daySelected": focusedDay});
+                    }
+                  })
                 }),
             calendarBuilders: CalendarBuilders(
               selectedBuilder: (context, day, focusedDay) => Container(
@@ -61,7 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             currentDay: now,
             selectedDayPredicate: (day) {
               late bool isSelectedDate = false;
-              for (DateTime dateSelect in dateMock) {
+              for (DateTime dateSelect in dateList) {
                 if (dateSelect.day == day.day &&
                     dateSelect.month == day.month &&
                     dateSelect.year == day.year) {
