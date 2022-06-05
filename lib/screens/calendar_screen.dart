@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
+import 'package:splenda_epi/services/calendar_service.dart';
+import 'package:splenda_epi/shared/data/store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../components/public/custom_text_label.dart';
@@ -31,14 +33,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
       DateTime(now.year, now.month + 1, now.day + 25),
     ];
 
+    Map<String, dynamic> userData;
     Widget _child = Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TableCalendar(
-            onDaySelected: ((selectedDay, focusedDay) => {
-                  Navigator.pushNamed(context, "/day_details_screen",
-                      arguments: {"daySelected": focusedDay})
+            onDaySelected: ((selectedDay, focusedDay) async => {
+                  print(await CalendarService().findAllDate())
+                  // Navigator.pushNamed(context, "/day_details_screen",
+                  //     arguments: {"daySelected": focusedDay})
                 }),
             calendarBuilders: CalendarBuilders(
               selectedBuilder: (context, day, focusedDay) => Container(
