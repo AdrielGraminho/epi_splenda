@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../providers/calendar_days.dart';
 import '../screens/calendar_screen.dart';
 import '../shared/data/store.dart';
 
@@ -28,7 +30,7 @@ class LoginService {
         "accept": "application/json",
       },
     );
-    if (response.statusCode.toString() == '401') {
+    if (response.statusCode.toString() != '200') {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -45,10 +47,31 @@ class LoginService {
     } else {
       final responseBody = json.decode(response.body);
       setParameters(responseBody);
-      storeParameter();
+      await storeParameter();
+      await loadData(context);
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const CalendarScreen()));
+    }
+  }
+
+  Future<void> loadData(BuildContext context) async {
+    try {
+      await Provider.of<CalendarDays>(context, listen: false).getDays(context);
+    } on Exception catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Erro ao autenticar"),
+                content: const Text("Verifique seu usuário e senha, por favor"),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: const Text('Fechar'))
+                ],
+              ));
     }
   }
 
@@ -63,8 +86,8 @@ class LoginService {
     _nameRole = responseBody['nameRole'];
   }
 
-  void storeParameter() {
-    Store.saveMap('userData', {
+  Future<void> storeParameter() async {
+    await Store.saveMap('userData', {
       'token': _token,
       'expiryDate': _expiryDate!.toIso8601String(),
       'localId': _localId.toString(),

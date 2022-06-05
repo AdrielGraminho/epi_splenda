@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splenda_epi/helpers/count_page.dart';
+import 'package:splenda_epi/providers/count_page.dart';
 import 'package:splenda_epi/screens/account_screen.dart';
 import 'package:splenda_epi/screens/audit_screen.dart';
 import 'package:splenda_epi/screens/recived_epi_screen.dart';

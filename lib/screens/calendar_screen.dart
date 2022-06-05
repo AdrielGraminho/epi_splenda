@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
-import 'package:splenda_epi/services/calendar_service.dart';
-import 'package:splenda_epi/shared/data/store.dart';
+import 'package:splenda_epi/providers/calendar_days.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../components/public/custom_text_label.dart';
@@ -21,17 +21,8 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    List<DateTime> dateMock = [
-      now,
-      DateTime(now.year, now.month, now.day - 3),
-      DateTime(now.year, now.month, now.day - 1),
-      DateTime(now.year, now.month, now.day + 5),
-      DateTime(now.year, now.month, now.day + 10),
-      DateTime(now.year, now.month, now.day + 13),
-      DateTime(now.year, now.month, now.day + 25),
-      DateTime(now.year, now.month + 1, now.day + 10),
-      DateTime(now.year, now.month + 1, now.day + 25),
-    ];
+    List<DateTime> dateMock =
+        Provider.of<CalendarDays>(context, listen: false).listDate;
 
     Map<String, dynamic> userData;
     Widget _child = Column(
@@ -40,9 +31,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
           padding: const EdgeInsets.all(8.0),
           child: TableCalendar(
             onDaySelected: ((selectedDay, focusedDay) async => {
-                  print(await CalendarService().findAllDate())
-                  // Navigator.pushNamed(context, "/day_details_screen",
-                  //     arguments: {"daySelected": focusedDay})
+                  dateMock.forEach((date) => {
+                        if (DateFormat('y-MM-dd').format(date) ==
+                            DateFormat('y-MM-dd').format(selectedDay))
+                          {
+                            Navigator.pushNamed(context, "/day_details_screen",
+                                arguments: {"daySelected": focusedDay})
+                          }
+                      })
                 }),
             calendarBuilders: CalendarBuilders(
               selectedBuilder: (context, day, focusedDay) => Container(

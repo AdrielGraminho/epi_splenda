@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:splenda_epi/screens/login_screen.dart';
 
 class Store {
   static Future<bool> saveString(String key, String value) async {
@@ -29,5 +31,17 @@ class Store {
   static Future<bool> remove(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.remove(key);
+  }
+
+  static Future<String> getToken(BuildContext context) async {
+    final userData = await Store.getMap('userData');
+    var date = userData['expiryDate'];
+    if (DateTime.parse(date.toString()).isBefore(DateTime.now())) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
+      return '';
+    } else {
+      return userData['token'].toString();
+    }
   }
 }

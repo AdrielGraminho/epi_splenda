@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:splenda_epi/helpers/count_page.dart';
+import 'package:splenda_epi/providers/calendar_days.dart';
+import 'package:splenda_epi/providers/count_page.dart';
 import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -17,8 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Color.fromARGB(255, 254, 204, 22)));
-    return ChangeNotifierProvider<CountPage>(
-        create: (BuildContext context) => CountPage(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) => CountPage(),
+          ),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => CalendarDays())
+        ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Splenda EPI',

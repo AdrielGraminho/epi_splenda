@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:splenda_epi/utils/constants.dart';
 
@@ -7,10 +8,10 @@ import '../shared/data/store.dart';
 import 'package:http/http.dart' as http;
 
 class CalendarService {
-  Future<List<DateTime>> findAllDate() async {
+  Future<List<DateTime>> findAllDate(BuildContext context) async {
     String _uri = Constants.baseUrl + 'deadline/expiration';
-    final userData = await Store.getMap('userData');
-    final token = userData['token'];
+
+    final token = await Store.getToken(context);
 
     final response = await http.get(
       Uri.parse(_uri),
