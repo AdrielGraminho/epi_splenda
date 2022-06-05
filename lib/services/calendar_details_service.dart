@@ -36,4 +36,33 @@ class CalendarDetailsService {
 
     return Future.value(dayDetailsList);
   }
+
+  Future<List<DayDetails>> getDayDetailsBuPermissionPermission(
+      DateTime day, int idBusinessUnit, BuildContext context) async {
+    List<DayDetails> dayDetailsList = [];
+
+    String _uri = Constants.baseUrl + 'deadline/day';
+
+    final token = await Store.getToken(context);
+
+    final response = await http.get(
+      Uri.parse(_uri +
+          '?idBusinessUnit=' +
+          idBusinessUnit.toString() +
+          '&date=' +
+          DateFormat('y-MM-dd').format(day)),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    List data = json.decode(response.body);
+
+    data.forEach((element) {
+      dayDetailsList.add(DayDetails(
+        idDeadLine: element['idDeadLine'],
+        description: element['description'],
+        businessUnit: element['businessUnit'],
+      ));
+    });
+
+    return Future.value(dayDetailsList);
+  }
 }

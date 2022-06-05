@@ -10,8 +10,30 @@ class CalendarDetailsProvider extends ChangeNotifier {
 
   Future<void> getDayDetailsTotalPermission(
       DateTime day, BuildContext context) async {
-    _dayDetailsList = await CalendarDetailsService()
-        .getDayDetailsTotalPermission(day, context);
+    try {
+      _dayDetailsList = await CalendarDetailsService()
+          .getDayDetailsTotalPermission(day, context);
+    } catch (e) {
+      _dayDetailsList = [];
+    }
+    notifyListeners();
+    return Future.value();
+  }
+
+  Future<void> getDayDetailsBuPermissionPermission(
+      DateTime day, int idBusinessUnit, BuildContext context) async {
+    try {
+      _dayDetailsList = await CalendarDetailsService()
+          .getDayDetailsBuPermissionPermission(day, idBusinessUnit, context);
+    } catch (e) {
+      _dayDetailsList = [];
+    }
+    notifyListeners();
+    return Future.value();
+  }
+
+  Future<void> clean() async {
+    _dayDetailsList.clear();
     notifyListeners();
     return Future.value();
   }

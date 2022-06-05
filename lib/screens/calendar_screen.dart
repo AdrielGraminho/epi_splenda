@@ -43,6 +43,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 listen: false)
                             .getDayDetailsTotalPermission(selectedDay, context);
                       }
+                      {
+                        await Provider.of<CalendarDetailsProvider>(context,
+                                listen: false)
+                            .clean();
+                      }
 
                       Navigator.pushNamed(context, "/day_details_screen",
                           arguments: {"daySelected": focusedDay});
