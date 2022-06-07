@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -57,6 +58,8 @@ class LoginService {
 
   Future<void> loadData(BuildContext context) async {
     try {
+      await Provider.of<BusinessUnitProvider>(context, listen: false)
+          .getBusinessUnitByPermission(context);
       await Provider.of<CalendarDays>(context, listen: false).getDays(context);
     } on Exception catch (e) {
       showDialog(

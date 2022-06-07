@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/providers/calendar_days_provider.dart';
 import 'package:splenda_epi/providers/calendar_details_provider.dart';
 import 'package:splenda_epi/providers/count_page.dart';
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (BuildContext context) => CalendarDays()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => CalendarDetailsProvider())
+              create: (BuildContext context) => CalendarDetailsProvider()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => BusinessUnitProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

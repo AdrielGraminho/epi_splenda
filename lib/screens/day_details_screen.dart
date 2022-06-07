@@ -1,13 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/components/public/box_field_date.dart';
 import 'package:splenda_epi/components/public/box_list.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
+import 'package:splenda_epi/models/business_unit.dart';
 import 'package:splenda_epi/models/day_details.dart';
+import 'package:splenda_epi/providers/business_unit_provider.dart';
 import '../components/public/custom_dropdown_field.dart';
 import '../providers/calendar_details_provider.dart';
 
@@ -18,14 +19,22 @@ class DayDetailsScreen extends StatefulWidget {
   State<DayDetailsScreen> createState() => _DayDetailsScreenState();
 }
 
+List<String> dropDownOtions = [''];
+
 class _DayDetailsScreenState extends State<DayDetailsScreen> {
   String dropDownValue = "";
-  List<String> dropDownOtions = ["", "Unidade 1"];
+  int? selectedBusinessUnit;
 
-  void setDropDown(String newValue) {
-    setState(() {
-      dropDownValue = newValue;
-    });
+  @override
+  void initState() {
+    dropDownOtions.clear();
+    dropDownOtions.add('');
+    dropDownOtions.addAll(
+        Provider.of<BusinessUnitProvider>(context, listen: false)
+            .businessUnit
+            .map((e) => e.code.toString() + ' ' + e.description.toString())
+            .toList());
+    super.initState();
   }
 
   @override
@@ -34,8 +43,34 @@ class _DayDetailsScreenState extends State<DayDetailsScreen> {
         Provider.of<CalendarDetailsProvider>(context, listen: false)
             .dayDetailsList;
     Map dataRecivced = ModalRoute.of(context)!.settings.arguments as Map;
-
     DateTime daySelected = dataRecivced["daySelected"];
+
+    void setDropDown(String newValue) {
+      Provider.of<BusinessUnitProvider>(context, listen: false)
+          .businessUnit
+          .forEach((businessUnit) => {
+                if (newValue ==
+                    businessUnit.code.toString() +
+                        ' ' +
+                        businessUnit.description.toString())
+                  {selectedBusinessUnit = businessUnit.idBusinessUnit}
+              });
+      if (newValue == '') {
+        Provider.of<CalendarDetailsProvider>(context, listen: false)
+            .clean()
+            .then((_) => setState(() {
+                  dropDownValue = newValue;
+                }));
+        ;
+      } else if (selectedBusinessUnit != null) {
+        Provider.of<CalendarDetailsProvider>(context, listen: false)
+            .getDayDetailsBuPermissionPermission(
+                daySelected, selectedBusinessUnit!, context)
+            .then((_) => setState(() {
+                  dropDownValue = newValue;
+                }));
+      }
+    }
 
     Widget child = Column(
       children: [
