@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splenda_epi/models/account_details.dart';
+import 'package:splenda_epi/providers/account_details_provider.dart';
 import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -50,6 +52,8 @@ class LoginService {
       setParameters(responseBody);
       await storeParameter();
       await loadData(context);
+      await Provider.of<AccountDetailsProvider>(context, listen: false)
+          .getAccountDetails();
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const CalendarScreen()));
