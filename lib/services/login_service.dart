@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:splenda_epi/models/account_details.dart';
 import 'package:splenda_epi/providers/account_details_provider.dart';
 import 'package:splenda_epi/providers/business_unit_provider.dart';
+import 'package:splenda_epi/providers/item_provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -65,6 +66,8 @@ class LoginService {
       await Provider.of<BusinessUnitProvider>(context, listen: false)
           .getBusinessUnitByPermission(context);
       await Provider.of<CalendarDays>(context, listen: false).getDays(context);
+      await Provider.of<ItemProvider>(context, listen: false)
+          .findAllItems(context);
     } on Exception catch (e) {
       showDialog(
           context: context,
