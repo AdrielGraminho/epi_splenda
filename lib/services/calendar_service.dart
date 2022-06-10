@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:splenda_epi/utils/constants.dart';
 
 import '../shared/data/store.dart';

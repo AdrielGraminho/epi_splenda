@@ -6,6 +6,7 @@ import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/providers/calendar_days_provider.dart';
 import 'package:splenda_epi/providers/calendar_details_provider.dart';
 import 'package:splenda_epi/providers/count_page.dart';
+import 'package:splenda_epi/providers/employee_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
 import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
@@ -36,7 +37,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (BuildContext context) => AccountDetailsProvider()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => ItemProvider())
+              create: (BuildContext context) => ItemProvider()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => EmployeeProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

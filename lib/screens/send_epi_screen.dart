@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/components/public/custom_dropdown_field.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
+import 'package:splenda_epi/providers/employee_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
+import 'package:splenda_epi/services/received_service.dart';
 
 import '../components/public/base_text_field.dart';
 import '../components/public/button.dart';
@@ -20,7 +22,7 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
   List<String> dropDownOtions = [''];
   TextEditingController cpfController = TextEditingController();
   TextEditingController employeeController = TextEditingController();
-  var Idemployee;
+  int? idItem;
 
   @override
   void initState() {
@@ -35,7 +37,24 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
 
   @override
   Widget build(BuildContext context) {
-    void handleChangeCpf() {}
+    var idEmployee =
+        Provider.of<EmployeeProvider>(context, listen: false).idEmployee;
+    String name = Provider.of<EmployeeProvider>(context, listen: false).name;
+    Future<void> handleChangeCpf(String cpf) async {
+      try {
+        await Provider.of<EmployeeProvider>(context, listen: false)
+            .findEmployeeByCpf(cpf, context);
+      } catch (e) {
+        // print(e);
+      }
+
+      setState(() {
+        name = Provider.of<EmployeeProvider>(context, listen: false).name;
+        idEmployee =
+            Provider.of<EmployeeProvider>(context, listen: false).idEmployee;
+      });
+    }
+
     Widget _child = Column(children: [
       const TitleField(title: "Entrega de EPIs"),
       CustomDropDownField(
@@ -53,9 +72,8 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
               BaseTextField(
                 label: "CPF do Colaborador",
                 controller: cpfController,
-                isPassword: false,
-                onChange: () {
-                  handleChangeCpf();
+                onChange: (val) {
+                  handleChangeCpf(val);
                 },
               ),
               SizedBox(
@@ -63,10 +81,27 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
               ),
               BaseTextField(
                   isDisabled: true,
-                  label: "Nome do Colaborador",
+                  label: name,
                   controller: employeeController,
                   isPassword: false),
-              Button(label: "Salvar", function: () {}),
+              Button(
+                  label: "Salvar",
+                  function: () {
+                    Provider.of<ItemProvider>(context, listen: false)
+                        .itemList
+                        .forEach((element) {
+                      if (element.idItem.toString() +
+                              ' ' +
+                              element.description.toString() ==
+                          dropDownValue) {
+                        idItem = element.idItem;
+                      }
+                    });
+                    if (idEmployee != null && idItem != null) {
+                      ReceivedService().send(
+                          context, idEmployee.toString(), idItem.toString());
+                    }
+                  }),
             ],
           ))
     ]);

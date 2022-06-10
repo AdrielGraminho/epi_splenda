@@ -5,7 +5,7 @@ class BaseTextField extends StatelessWidget {
   final bool? isPassword;
   final String label;
   final bool? isDisabled;
-  final Function? onChange;
+  final Function(String)? onChange;
 
   const BaseTextField({
     Key? key,
@@ -18,19 +18,19 @@ class BaseTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void handleChanged() {
+    void handleChanged(String value) {
       if (onChange != null) {
-        onChange!();
+        onChange!(value);
       }
     }
 
     return TextField(
-      obscureText: isPassword != null,
+      obscureText: isPassword != null || isPassword == true,
       decoration:
           InputDecoration(border: const OutlineInputBorder(), hintText: label),
       controller: controller,
       enabled: isDisabled == false || isDisabled == null,
-      onChanged: (value) => handleChanged(),
+      onChanged: (value) => handleChanged(value),
     );
   }
 }
