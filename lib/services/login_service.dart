@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splenda_epi/models/account_details.dart';
 import 'package:splenda_epi/providers/account_details_provider.dart';
 import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
@@ -20,7 +19,6 @@ class LoginService {
   DateTime? _expiryDate;
   int? _localId;
   String? _userName;
-  Timer? _logoutTimer;
   String? _email;
   String? _nameRole;
 
@@ -68,7 +66,7 @@ class LoginService {
       await Provider.of<CalendarDays>(context, listen: false).getDays(context);
       await Provider.of<ItemProvider>(context, listen: false)
           .findAllItems(context);
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       showDialog(
           context: context,
           builder: (ctx) => AlertDialog(

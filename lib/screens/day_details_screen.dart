@@ -61,7 +61,6 @@ class _DayDetailsScreenState extends State<DayDetailsScreen> {
             .then((_) => setState(() {
                   dropDownValue = newValue;
                 }));
-        ;
       } else if (selectedBusinessUnit != null) {
         Provider.of<CalendarDetailsProvider>(context, listen: false)
             .getDayDetailsBuPermissionPermission(

@@ -55,13 +55,13 @@ class CalendarDetailsService {
     );
     List data = json.decode(response.body);
 
-    data.forEach((element) {
+    for (var element in data) {
       dayDetailsList.add(DayDetails(
         idDeadLine: element['idDeadLine'],
         description: element['description'],
         businessUnit: element['businessUnit'],
       ));
-    });
+    }
 
     return Future.value(dayDetailsList);
   }

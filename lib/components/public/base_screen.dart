@@ -27,9 +27,9 @@ class _BaseScreenState extends State<BaseScreen> {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     List<Widget> pages = [
-      CalendarScreen(),
-      RecivedEpiScreen(),
-      SendEpiScreen()
+      const CalendarScreen(),
+      const RecivedEpiScreen(),
+      const SendEpiScreen()
     ];
 
     int _selectedIndex = Provider.of<CountPage>(context, listen: false).counter;

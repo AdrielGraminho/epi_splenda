@@ -8,6 +8,7 @@ import 'package:splenda_epi/providers/calendar_details_provider.dart';
 import 'package:splenda_epi/providers/count_page.dart';
 import 'package:splenda_epi/providers/employee_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
+import 'package:splenda_epi/providers/ppra_pcmso_provider.dart';
 import 'package:splenda_epi/screens/day_details_screen.dart';
 import 'package:splenda_epi/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => ItemProvider()),
           ChangeNotifierProvider(
               create: (BuildContext context) => EmployeeProvider()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => PpraPcmsoProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
