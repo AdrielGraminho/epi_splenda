@@ -9,6 +9,9 @@ import 'package:splenda_epi/services/received_service.dart';
 
 import '../components/public/base_text_field.dart';
 import '../components/public/button.dart';
+import '../providers/calendar_days_provider.dart';
+import '../providers/count_page.dart';
+import 'calendar_screen.dart';
 
 class SendEpiScreen extends StatefulWidget {
   const SendEpiScreen({Key? key}) : super(key: key);
@@ -98,8 +101,22 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
                       }
                     });
                     if (idEmployee != null && idItem != null) {
-                      ReceivedService().send(
-                          context, idEmployee.toString(), idItem.toString());
+                      ReceivedService()
+                          .send(
+                              context, idEmployee.toString(), idItem.toString())
+                          .then((_) {
+                        Provider.of<CalendarDays>(context, listen: false)
+                            .getDays(context)
+                            .then((_) {
+                          Provider.of<CountPage>(context, listen: false)
+                              .incrementCounter(0);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CalendarScreen()));
+                        });
+                      });
                     }
                   }),
             ],
