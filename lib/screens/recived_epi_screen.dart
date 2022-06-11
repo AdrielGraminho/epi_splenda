@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
+import 'package:splenda_epi/services/recived_service.dart';
 
 import '../components/public/base_text_field.dart';
 import '../components/public/button.dart';
 import '../components/public/custom_dropdown_field.dart';
+import '../providers/calendar_days_provider.dart';
+import '../providers/count_page.dart';
 import '../providers/employee_provider.dart';
 import '../providers/item_provider.dart';
+import 'calendar_screen.dart';
 
 class RecivedEpiScreen extends StatefulWidget {
   const RecivedEpiScreen({Key? key}) : super(key: key);
@@ -21,7 +25,7 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
   List<String> dropDownOtions = [''];
   TextEditingController cpfController = TextEditingController();
   TextEditingController employeeController = TextEditingController();
-  int? idItem;
+  int? idExit;
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +114,28 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
                         .forEach((element) {
                       if (element.idItem.toString() +
                               ' ' +
-                              element.description.toString() ==
+                              element.description.toString() +
+                              ' ' +
+                              element.idExit.toString() ==
                           dropDownValue) {
-                        idItem = element.idItem;
+                        idExit = element.idExit;
+                      }
+                      if (idExit != null) {
+                        RecivedService()
+                            .send(context, idExit.toString())
+                            .then((_) {
+                          Provider.of<CalendarDays>(context, listen: false)
+                              .getDays(context)
+                              .then((_) {
+                            Provider.of<CountPage>(context, listen: false)
+                                .incrementCounter(0);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CalendarScreen()));
+                          });
+                        });
                       }
                     });
                   }),

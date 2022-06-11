@@ -5,7 +5,7 @@ import 'package:splenda_epi/components/public/custom_dropdown_field.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
 import 'package:splenda_epi/providers/employee_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
-import 'package:splenda_epi/services/received_service.dart';
+import 'package:splenda_epi/services/exit_service.dart';
 
 import '../components/public/base_text_field.dart';
 import '../components/public/button.dart';
