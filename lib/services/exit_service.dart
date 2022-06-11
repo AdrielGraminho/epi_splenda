@@ -6,7 +6,7 @@ import '../shared/data/store.dart';
 import '../utils/constants.dart';
 import 'package:http/http.dart' as http;
 
-class ReceivedService {
+class ExitService {
   Future<void> send(
       BuildContext context, String? idEmploye, String? idItem) async {
     String _uri = Constants.baseUrl + 'exit';

@@ -101,7 +101,7 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
                       }
                     });
                     if (idEmployee != null && idItem != null) {
-                      ReceivedService()
+                      ExitService()
                           .send(
                               context, idEmployee.toString(), idItem.toString())
                           .then((_) {

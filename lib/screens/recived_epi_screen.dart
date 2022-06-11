@@ -24,21 +24,39 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
   int? idItem;
 
   @override
-  void initState() {
-    dropDownOtions.clear();
-    dropDownOtions.add('');
-    dropDownOtions.addAll(Provider.of<ItemProvider>(context, listen: false)
-        .itemList
-        .map((e) => e.idItem.toString() + ' ' + e.description.toString())
-        .toList());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var idEmployee =
         Provider.of<EmployeeProvider>(context, listen: false).idEmployee;
+
     String name = Provider.of<EmployeeProvider>(context, listen: false).name;
+
+    void handleChangeItem() {
+      if (idEmployee != null) {
+        Provider.of<ItemProvider>(context, listen: false)
+            .findByEmployeeId(context, idEmployee!)
+            .then((_) {
+          List<String> options = [''];
+          options.addAll(Provider.of<ItemProvider>(context, listen: false)
+              .itemListEmployee
+              .map((e) =>
+                  e.idItem.toString() +
+                  ' ' +
+                  e.description.toString() +
+                  ' ' +
+                  e.idExit.toString())
+              .toList());
+          setState(() {
+            dropDownOtions = options;
+          });
+        });
+      } else {
+        setState(() {
+          dropDownValue = '';
+          dropDownOtions = [''];
+        });
+      }
+    }
+
     Future<void> handleChangeCpf(String cpf) async {
       try {
         await Provider.of<EmployeeProvider>(context, listen: false)
@@ -52,6 +70,7 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
         idEmployee =
             Provider.of<EmployeeProvider>(context, listen: false).idEmployee;
       });
+      handleChangeItem();
     }
 
     Widget _child = Column(children: [
@@ -75,7 +94,7 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
                   handleChangeCpf(val);
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               BaseTextField(
@@ -83,7 +102,20 @@ class _RecivedEpiScreenState extends State<RecivedEpiScreen> {
                   label: name,
                   controller: employeeController,
                   isPassword: false),
-              Button(label: "Salvar", function: () {}),
+              Button(
+                  label: "Salvar",
+                  function: () {
+                    Provider.of<ItemProvider>(context, listen: false)
+                        .itemListEmployee
+                        .forEach((element) {
+                      if (element.idItem.toString() +
+                              ' ' +
+                              element.description.toString() ==
+                          dropDownValue) {
+                        idItem = element.idItem;
+                      }
+                    });
+                  }),
             ],
           ))
     ]);

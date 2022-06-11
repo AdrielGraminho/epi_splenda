@@ -19,17 +19,7 @@ class Button extends StatelessWidget {
             bottomLeft: Radius.circular(10.0),
             topLeft: Radius.circular(10.0),
           ),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                Color.fromARGB(255, 254, 204, 22),
-              ],
-              stops: [
-                0.2,
-                1
-              ]),
+          color: Color.fromARGB(255, 254, 204, 22),
         ),
         child: ElevatedButton(
           style: ButtonStyle(
