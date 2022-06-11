@@ -26,7 +26,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     List<DateTime> dateList =
         Provider.of<CalendarDays>(context, listen: false).listDate;
 
-    Map<String, dynamic> userData;
     Widget _child = Column(
       children: [
         Padding(

@@ -1,10 +1,14 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
 import 'package:splenda_epi/components/public/box_list.dart';
 import 'package:splenda_epi/components/public/custom_dropdown_field.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
+import 'package:splenda_epi/models/audit_item.dart';
+import 'package:splenda_epi/models/audit_type.dart';
+
+import '../providers/audit_provider.dart';
+import '../providers/business_unit_provider.dart';
 
 class AuditScreen extends StatefulWidget {
   const AuditScreen({Key? key}) : super(key: key);
@@ -13,55 +17,20 @@ class AuditScreen extends StatefulWidget {
   State<AuditScreen> createState() => _AuditScreenState();
 }
 
-class _AuditScreenState extends State<AuditScreen> {
-  List<Map<String, dynamic>> mock = [
-    {
-      "auditType": {
-        "idType": 1,
-        "title":
-            "Veniam reprehenderit veniam aute ut sint proident duis proident.",
-        "items": {
-          {
-            "idItem": 1,
-            "itemDescription":
-                "Commodo amet occaecat aliqua cillum sint incididunt.Fugiat nisi qui anim ullamco aliqua eu eiusmod nulla esse quis culpa deserunt."
-          },
-          {
-            "idItem": 2,
-            "itemDescription":
-                "Aliquip in minim sint fugiat sint est anim anim sit culpa in pariatur do."
-          }
-        }
-      },
-    },
-    {
-      "auditType": {
-        "idType": 2,
-        "title":
-            "Culpa elit occaecat ullamco voluptate eu qui commodo officia Lorem aute qui ipsum.",
-        "items": {
-          {
-            "idItem": 3,
-            "itemDescription":
-                "Commodo amet occaecat aliqua cillum sint incididunt.Fugiat nisi qui anim ullamco aliqua eu eiusmod nulla esse quis culpa deserunt."
-          },
-          {
-            "idItem": 4,
-            "itemDescription":
-                "Incididunt eu tempor sint enim ullamco exercitation proident officia consectetur et minim labore."
-          }
-        }
-      },
-    },
-  ];
+List<String> dropDownOtions = [''];
 
-  String dropDownValue = '';
+class _AuditScreenState extends State<AuditScreen> {
+  String dropDownValue = "";
+  int? selectedBusinessUnit;
+
   String dropDownItem = '';
   List<int> isAproved = [];
   List<int> isReproved = [];
   List<int> isNotAplicable = [];
 
   void setDropDown(String newValue) {
+    Provider.of<AuditProvider>(context, listen: false)
+        .findAllAuditType(context);
     setState(() {
       dropDownValue = newValue;
       isAproved.clear();
@@ -71,27 +40,41 @@ class _AuditScreenState extends State<AuditScreen> {
   }
 
   @override
+  void initState() {
+    dropDownOtions.clear();
+    dropDownOtions.add('');
+    dropDownOtions.addAll(
+        Provider.of<BusinessUnitProvider>(context, listen: false)
+            .businessUnit
+            .map((e) => e.code.toString() + ' ' + e.description.toString())
+            .toList());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<AuditType> auditTypeList =
+        Provider.of<AuditProvider>(context, listen: false).auditTypeList;
     Widget child = Column(
       children: [
         const TitleField(title: "Auditoria"),
         CustomDropDownField(
             onChange: setDropDown,
-            options: ['', 'Unidate 1', 'Unidade 2', 'Unidade 3', 'Unidade 4'],
+            options: dropDownOtions,
             dropDownValue: dropDownValue),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.7,
           child: dropDownValue != ''
               ? ListView.builder(
                   shrinkWrap: true,
-                  itemCount: mock.length,
+                  itemCount: auditTypeList.length,
                   itemBuilder: (context, index) {
                     String title =
-                        mock.elementAt(index)['auditType']['title'].toString();
-                    LinkedHashSet<Map<String, Object>> items =
-                        mock.elementAt(index)['auditType']['items'];
+                        auditTypeList.elementAt(index).description.toString();
+                    List<AuditItem> items =
+                        auditTypeList.elementAt(index).auditItemList;
                     int idAuditType =
-                        mock.elementAt(index)['auditType']['idType'];
+                        auditTypeList.elementAt(index).idAuditType;
                     return BoxList(
                         title: idAuditType.toString() + '- ' + title,
                         child: ListView.builder(
@@ -99,11 +82,12 @@ class _AuditScreenState extends State<AuditScreen> {
                             shrinkWrap: true,
                             itemCount: items.length,
                             itemBuilder: ((context, index) {
-                              String itemDescription = items
-                                  .elementAt(index)['itemDescription']
-                                  .toString();
-                              int idItem = int.parse(
-                                  items.elementAt(index)['idItem'].toString());
+                              String itemDescription =
+                                  items.elementAt(index).description.toString();
+                              int idItem = int.parse(items
+                                  .elementAt(index)
+                                  .idAuditItem
+                                  .toString());
                               return Column(
                                 children: [
                                   Text(itemDescription),

@@ -21,9 +21,9 @@ class CalendarService {
 
     List<DateTime> dateList = [];
 
-    data.forEach((date) {
+    for (var date in data) {
       dateList.add(DateTime.parse(date.toString()));
-    });
+    }
 
     return dateList;
   }

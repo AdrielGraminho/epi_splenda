@@ -4,14 +4,15 @@ import 'package:splenda_epi/models/account_details.dart';
 import '../shared/data/store.dart';
 
 class AccountDetailsProvider extends ChangeNotifier {
-  var accountDetails;
+  AccountDetails? _accountDetails;
+  AccountDetails? get accountDetails => _accountDetails;
   Future<void> getAccountDetails() async {
     final userData = await Store.getMap('userData');
     String userName = userData['userName'];
     String email = userData['email'];
     String nameRole = userData['nameRole'];
 
-    accountDetails =
+    _accountDetails =
         AccountDetails(nameRole: nameRole, email: email, username: userName);
     notifyListeners();
   }

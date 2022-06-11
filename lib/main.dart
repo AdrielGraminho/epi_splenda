@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:splenda_epi/providers/account_details_provider.dart';
+import 'package:splenda_epi/providers/audit_provider.dart';
 import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/providers/calendar_days_provider.dart';
 import 'package:splenda_epi/providers/calendar_details_provider.dart';
@@ -43,6 +44,8 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => EmployeeProvider()),
           ChangeNotifierProvider(
               create: (BuildContext context) => PpraPcmsoProvider()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => AuditProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -69,7 +69,7 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
           options: dropDownOtions,
           dropDownValue: dropDownValue),
       Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               BaseTextField(
@@ -79,7 +79,7 @@ class _SendEpiScreenState extends State<SendEpiScreen> {
                   handleChangeCpf(val);
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               BaseTextField(

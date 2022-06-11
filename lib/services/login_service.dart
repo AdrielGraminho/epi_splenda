@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splenda_epi/providers/account_details_provider.dart';
+import 'package:splenda_epi/providers/audit_provider.dart';
 import 'package:splenda_epi/providers/business_unit_provider.dart';
 import 'package:splenda_epi/providers/item_provider.dart';
 import 'package:splenda_epi/utils/constants.dart';
@@ -66,6 +67,8 @@ class LoginService {
       await Provider.of<CalendarDays>(context, listen: false).getDays(context);
       await Provider.of<ItemProvider>(context, listen: false)
           .findAllItems(context);
+      await Provider.of<AuditProvider>(context, listen: false)
+          .findAllAuditType(context);
     } on Exception catch (_) {
       showDialog(
           context: context,

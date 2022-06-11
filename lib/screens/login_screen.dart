@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:splenda_epi/components/public/base_text_field.dart';
 import 'package:splenda_epi/components/public/button.dart';
 import 'package:splenda_epi/components/public/base_screen.dart';
-import 'package:splenda_epi/screens/calendar_screen.dart';
 import 'package:splenda_epi/services/login_service.dart';
 
 class LoginScreen extends StatefulWidget {

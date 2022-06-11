@@ -21,7 +21,7 @@ class BusinessUnitService {
     );
     List data = json.decode(response.body);
 
-    data.forEach((element) {
+    for (var element in data) {
       businessUnitList.add(BusinessUnit(
         idBusinessUnit: element['idBusinessUnit'],
         idCompany: element['idCompany'],
@@ -29,7 +29,7 @@ class BusinessUnitService {
         description: element['description'],
         codeMetadados: element['codeMetadados'],
       ));
-    });
+    }
 
     return Future.value(businessUnitList);
   }

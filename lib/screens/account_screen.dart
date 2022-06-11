@@ -20,7 +20,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    AccountDetails accountDetails =
+    AccountDetails? accountDetails =
         Provider.of<AccountDetailsProvider>(context, listen: false)
             .accountDetails;
     Widget child = Column(
@@ -28,18 +28,18 @@ class _AccountScreenState extends State<AccountScreen> {
       children: [
         const TitleField(title: 'Conta'),
         Padding(
-          padding: EdgeInsets.all(32.0),
-          child: CustomTextLabel(text: 'Nome: ${accountDetails.username}'),
+          padding: const EdgeInsets.all(32.0),
+          child: CustomTextLabel(text: 'Nome: ${accountDetails?.username}'),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 32),
-          child: CustomTextLabel(text: "E-email: ${accountDetails.email}"),
+          padding: const EdgeInsets.only(left: 32),
+          child: CustomTextLabel(text: "E-email: ${accountDetails?.email}"),
         ),
         Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(32.0),
           child: CustomTextLabel(
               text:
-                  "Permissão: ${accountDetails.nameRole == 'bu' ? 'Unidade' : accountDetails.nameRole}"),
+                  "Permissão: ${accountDetails?.nameRole == 'bu' ? 'Unidade' : accountDetails?.nameRole}"),
         ),
         Padding(
           padding: const EdgeInsets.all(12.0),
