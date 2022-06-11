@@ -29,8 +29,6 @@ class _AuditScreenState extends State<AuditScreen> {
   List<int> isNotAplicable = [];
 
   void setDropDown(String newValue) {
-    Provider.of<AuditProvider>(context, listen: false)
-        .findAllAuditType(context);
     setState(() {
       dropDownValue = newValue;
       isAproved.clear();

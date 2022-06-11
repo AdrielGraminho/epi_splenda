@@ -21,7 +21,7 @@ class AuditService {
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    List data = json.decode(response.body);
+    List data = json.decode(utf8.decode(response.bodyBytes));
 
     for (var element in data) {
       List<AuditItem> auditItemList = [];
