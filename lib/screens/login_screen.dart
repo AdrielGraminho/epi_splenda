@@ -19,16 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Widget child = Column(
       children: [
-        Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height * 0.4,
-          child: const Image(image: AssetImage('images/logo_splenda.png')),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: const Image(image: AssetImage('images/logo_splenda.png')),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.6,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: Column(
               children: [
                 BaseTextField(
