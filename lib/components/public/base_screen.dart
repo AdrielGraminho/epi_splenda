@@ -7,7 +7,10 @@ import 'package:splenda_epi/screens/recived_epi_screen.dart';
 import 'package:splenda_epi/screens/send_epi_screen.dart';
 import 'package:splenda_epi/screens/ppra_pcmso_screen.dart';
 
+import '../../models/account_details.dart';
+import '../../providers/account_details_provider.dart';
 import '../../screens/calendar_screen.dart';
+import '../../shared/data/store.dart';
 
 class BaseScreen extends StatefulWidget {
   final Widget child;
@@ -24,6 +27,9 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
+    AccountDetails? accountDetails =
+        Provider.of<AccountDetailsProvider>(context, listen: false)
+            .accountDetails;
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     List<Widget> pages = [
@@ -98,22 +104,6 @@ class _BaseScreenState extends State<BaseScreen> {
                       ),
                     ),
                     ListTile(
-                      title: const Text('Auditoria'),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AuditScreen()),
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text('PPRA e PCMSO'),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PpraPcmsoScreen()),
-                      ),
-                    ),
-                    ListTile(
                       title: const Text('Conta'),
                       onTap: () => Navigator.push(
                         context,
@@ -121,6 +111,27 @@ class _BaseScreenState extends State<BaseScreen> {
                             builder: (context) => const AccountScreen()),
                       ),
                     ),
+                    accountDetails?.nameRole == 'total'
+                        ? ListTile(
+                            title: const Text('Auditoria'),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AuditScreen()),
+                            ),
+                          )
+                        : Text(''),
+                    accountDetails?.nameRole == 'total'
+                        ? ListTile(
+                            title: const Text('PPRA e PCMSO'),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PpraPcmsoScreen()),
+                            ),
+                          )
+                        : Text(''),
                   ],
                 ),
               )
