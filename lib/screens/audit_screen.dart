@@ -6,6 +6,7 @@ import 'package:splenda_epi/components/public/custom_dropdown_field.dart';
 import 'package:splenda_epi/components/public/title_field.dart';
 import 'package:splenda_epi/models/audit_item.dart';
 import 'package:splenda_epi/models/audit_type.dart';
+import 'package:splenda_epi/services/audit_service.dart';
 
 import '../providers/audit_provider.dart';
 import '../providers/business_unit_provider.dart';
@@ -18,10 +19,10 @@ class AuditScreen extends StatefulWidget {
 }
 
 List<String> dropDownOtions = [''];
+int? selectedBusinessUnit;
 
 class _AuditScreenState extends State<AuditScreen> {
   String dropDownValue = "";
-  int? selectedBusinessUnit;
 
   String dropDownItem = '';
   List<int> isAproved = [];
@@ -29,6 +30,15 @@ class _AuditScreenState extends State<AuditScreen> {
   List<int> isNotAplicable = [];
 
   void setDropDown(String newValue) {
+    Provider.of<BusinessUnitProvider>(context, listen: false)
+        .businessUnit
+        .forEach((businessUnit) => {
+              if (newValue ==
+                  businessUnit.code.toString() +
+                      ' ' +
+                      businessUnit.description.toString())
+                {selectedBusinessUnit = businessUnit.idBusinessUnit}
+            });
     setState(() {
       dropDownValue = newValue;
       isAproved.clear();
@@ -67,8 +77,11 @@ class _AuditScreenState extends State<AuditScreen> {
                   shrinkWrap: true,
                   itemCount: auditTypeList.length,
                   itemBuilder: (context, index) {
-                    String title =
-                        auditTypeList.elementAt(index).description.toString();
+                    String title = auditTypeList
+                        .elementAt(index)
+                        .description
+                        .toString()
+                        .trim();
                     List<AuditItem> items =
                         auditTypeList.elementAt(index).auditItemList;
                     int idAuditType =
@@ -87,6 +100,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                   .idAuditItem
                                   .toString());
                               return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(itemDescription),
                                   Row(
@@ -100,6 +114,13 @@ class _AuditScreenState extends State<AuditScreen> {
                                               if (isAproved.contains(idItem)) {
                                                 isAproved.remove(idItem);
                                               } else {
+                                                print(selectedBusinessUnit);
+                                                //todo aqui vai enviar para o backend o id
+                                                AuditService().send(
+                                                    context,
+                                                    selectedBusinessUnit!,
+                                                    idItem,
+                                                    'APPROVED');
                                                 isAproved.add(idItem);
                                                 isReproved.remove(idItem);
                                                 isNotAplicable.remove(idItem);
@@ -125,6 +146,11 @@ class _AuditScreenState extends State<AuditScreen> {
                                               if (isReproved.contains(idItem)) {
                                                 isReproved.remove(idItem);
                                               } else {
+                                                AuditService().send(
+                                                    context,
+                                                    selectedBusinessUnit!,
+                                                    idItem,
+                                                    'DISAPPROVED');
                                                 isReproved.add(idItem);
                                                 isAproved.remove(idItem);
                                                 isNotAplicable.remove(idItem);
@@ -152,6 +178,11 @@ class _AuditScreenState extends State<AuditScreen> {
                                                   .contains(idItem)) {
                                                 isNotAplicable.remove(idItem);
                                               } else {
+                                                AuditService().send(
+                                                    context,
+                                                    selectedBusinessUnit!,
+                                                    idItem,
+                                                    'NOT_APPLICABLE');
                                                 isNotAplicable.add(idItem);
 
                                                 isReproved.remove(idItem);
